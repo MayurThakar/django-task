@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" />
+    <title>Index</title>
+  </head>
+  <body>
+    <div class="main">
+      {% if has_error %}
+        <div class="error-alert">
+          <h3>{{ has_error }}</h3>
+        </div>
+      {% endif %}
+      <section class="sign-in" id="sign-in">
+        <div class="container">
+          <div class="signin-content">
+            <div class="signin-image">
+              <figure>
+                <img src="{% static 'images/signin.jpg' %}" alt="sing in image" />
+              </figure>
+              <a href="{% url 'signup' %}" class="signup-image-link">Create an account</a>
+            </div>
+            <div class="signin-form">
+              <h2 class="form-title">Sign in</h2>
+              <form class="register-form" id="login-form" action="{% url 'homepage' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="email"><img src="{% static 'images/mail.png' %}" /></label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="Your Email"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="password"><img src="{% static 'images/password.png' %}" /></i></label>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Password"
+                  />
+                </div>
+                <div class="form-group form-button">
+                  <input
+                    type="submit"
+                    name="signin-button"
+                    id="signin-button"
+                    class="form-submit"
+                    value="Log in"
+                  />
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

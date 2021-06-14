@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" />
+    <title>Edit Page</title>
+  </head>
+  <body>
+    <div class="main">
+        {% if has_error %}
+            <div class="error-alert">
+                <h3>{{ has_error }}</h3>
+            </div>
+        {% endif %}
+      <section class="edit">
+        <div class="edit-container">
+          <div class="edit-content">
+            <div class="signup-form">
+              <h2 class="form-title">Edit fields</h2>
+              <form class="register-form" id="register-form" action="{% url 'homepage' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="row-id" id="row-id" value="{{ row_id }}">
+                <div class="form-group">
+                  <label for="username"><img src="{% static 'images/user.png' %}" /></label>
+                  <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    placeholder="New User Name"
+                    value="{{ username }}"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="email"><img src="{% static 'images/mail.png' %}" /></i></label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="New Email"
+                    value="{{ email }}"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="new-password"><img src="{% static 'images/password.png' %}" /></i></label>
+                  <input
+                    type="password"
+                    name="new-password"
+                    id="new-password"
+                    placeholder="New Password"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="re-paswd"><img src="{% static 'images/re-paswd.png' %}" /></i></label>
+                  <input
+                    type="password"
+                    name="re-paswd"
+                    id="re-paswd"
+                    placeholder="Repeat Password"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="address"><img src="{% static 'images/address.png' %}" /></i></label>
+                  <input
+                    type="text"
+                    name="address"
+                    id="address"
+                    placeholder="New Address"
+                    value="{{ address }}"
+                  />
+                </div>
+                <div class="edit-button">
+                  <input
+                    type="submit"
+                    name="done-edit"
+                    id="done-edit"
+                    class="form-submit"
+                    value="Done"
+                  /><br><br>
+                  <a href="{% url 'homepage' %}">Go back</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
