@@ -11,8 +11,17 @@ def duplicate_email(email):
     return True
 
 
-def for_hash(password):
-    return [str(ord(each_char)) for each_char in password]
+def encrypt_password(username, password):
+    encr_paswd = ''
+    un_paswd = username + password
+
+    for each_char in un_paswd:
+        if each_char.isdigit():
+            encr_paswd = "".join([encr_paswd, chr(int(each_char)+70)])
+        else:
+            encr_paswd = "".join([encr_paswd, str(ord(each_char))])
+
+    return encr_paswd
 
 
 class Main:
@@ -29,12 +38,12 @@ class Main:
 
         else:
             user = Users.objects.filter(
-                email=self.request.POST['email']).values_list('password')
+                email=self.request.POST['email']).values_list('username', 'password')
 
             if user:
-                hashed_paswd = ''.join(
-                    for_hash(self.request.POST['password']))
-                if hashed_paswd != ''.join(user[0]):
+                encr_paswd = encrypt_password(
+                    user[0][0], self.request.POST['password'])
+                if encr_paswd != user[0][1]:
                     return 'Incorrect password'
 
             else:
@@ -72,8 +81,9 @@ class Main:
             self.request.POST['username']).replace(' ', '')
         reference.email = str(
             self.request.POST['email']).replace(' ', '').lower()
-        reference.password = ''.join(for_hash(str(
-            self.request.POST['new-password']).replace(' ', '')))
+        reference.password = encrypt_password(
+            str(self.request.POST['username']).replace(' ', ''),
+            str(self.request.POST['new-password']).replace(' ', ''))
         reference.address = str(self.request.POST['address']).replace(' ', '')
         reference.save()
 
@@ -91,7 +101,9 @@ class Main:
             userid=str(timestamp).split('.')[1],
             username=str(data['username']).replace(' ', ''),
             email=str(data['email']).replace(' ', '').lower(),
-            password=str(data['new-password']).replace(' ', ''),
+            password=encrypt_password(
+                str(data['username']).replace(' ', ''),
+                str(data['new-password']).replace(' ', '')),
             address=str(data['address']).replace(' ', ''))
 
     def delete(self, user_id):
